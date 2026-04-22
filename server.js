@@ -1,47 +1,21 @@
-// server.js – Finanz-App Server mit Datenbank
-// Starte mit: node server.js
+// server.js – Finanz-App Server (JSON Speicher, kein SQLite)
+// Funktioniert auf Render kostenlos!
 
 const http = require('http');
-const fs = require('fs');
+const fs   = require('fs');
 const path = require('path');
-const { execSync } = require('child_process');
 
-// SQLite installieren falls nicht vorhanden
-try {
-  require('better-sqlite3');
-} catch {
-  console.log('📦 Installiere Datenbank...');
-  execSync('npm install better-sqlite3', { stdio: 'inherit' });
+const PORT    = process.env.PORT || 3000;
+const DB_FILE = path.join(__dirname, 'data.json');
+
+function loadDB() {
+  try { return JSON.parse(fs.readFileSync(DB_FILE, 'utf8')); }
+  catch { return { transactions: [], fixkosten: [], settings: {} }; }
 }
 
-const Database = require('better-sqlite3');
-const db = new Database('finanzen.db');
-
-// Tabellen erstellen
-db.exec(`
-  CREATE TABLE IF NOT EXISTS transactions (
-    id TEXT PRIMARY KEY,
-    name TEXT NOT NULL,
-    amount REAL NOT NULL,
-    cat TEXT DEFAULT 'Sonstiges',
-    date TEXT NOT NULL,
-    type TEXT NOT NULL,
-    createdAt TEXT DEFAULT (datetime('now'))
-  );
-  CREATE TABLE IF NOT EXISTS fixkosten (
-    id TEXT PRIMARY KEY,
-    name TEXT NOT NULL,
-    amount REAL NOT NULL,
-    cat TEXT DEFAULT 'Sonstiges',
-    day INTEGER DEFAULT 1
-  );
-  CREATE TABLE IF NOT EXISTS settings (
-    key TEXT PRIMARY KEY,
-    value TEXT
-  );
-`);
-
-const PORT = process.env.PORT || 3000;
+function saveDB(db) {
+  fs.writeFileSync(DB_FILE, JSON.stringify(db, null, 2));
+}
 
 function sendJSON(res, data, status = 200) {
   res.writeHead(status, {
@@ -77,8 +51,12 @@ function getBody(req) {
   });
 }
 
+function newId() {
+  return Date.now().toString() + Math.random().toString(36).slice(2, 6);
+}
+
 const server = http.createServer(async (req, res) => {
-  const url = req.url.split('?')[0];
+  const url    = req.url.split('?')[0];
   const method = req.method;
 
   if (method === 'OPTIONS') {
@@ -90,68 +68,53 @@ const server = http.createServer(async (req, res) => {
     res.end(); return;
   }
 
-  // ── Transactions ──
-  if (url === '/api/transactions' && method === 'GET') {
-    const rows = db.prepare('SELECT * FROM transactions ORDER BY date DESC, createdAt DESC').all();
-    return sendJSON(res, rows);
-  }
+  const db = loadDB();
 
+  // Transactions
+  if (url === '/api/transactions' && method === 'GET') {
+    return sendJSON(res, [...db.transactions].sort((a,b) => b.date.localeCompare(a.date)));
+  }
   if (url === '/api/transactions' && method === 'POST') {
     const b = await getBody(req);
     if (!b.name || !b.amount || !b.date || !b.type) return sendJSON(res, { error: 'Fehlende Felder' }, 400);
-    const id = Date.now().toString() + Math.random().toString(36).slice(2,6);
-    db.prepare('INSERT INTO transactions (id,name,amount,cat,date,type) VALUES (?,?,?,?,?,?)')
-      .run(id, b.name, b.amount, b.cat||'Sonstiges', b.date, b.type);
-    return sendJSON(res, { id, ...b }, 201);
+    const entry = { id: newId(), name: b.name, amount: b.amount, cat: b.cat||'Sonstiges', date: b.date, type: b.type };
+    db.transactions.push(entry);
+    saveDB(db);
+    return sendJSON(res, entry, 201);
   }
-
   const delTx = url.match(/^\/api\/transactions\/(.+)$/);
   if (delTx && method === 'DELETE') {
-    db.prepare('DELETE FROM transactions WHERE id=?').run(delTx[1]);
-    return sendJSON(res, { success: true });
+    db.transactions = db.transactions.filter(t => t.id !== delTx[1]);
+    saveDB(db); return sendJSON(res, { success: true });
   }
 
-  // ── Fixkosten ──
+  // Fixkosten
   if (url === '/api/fixkosten' && method === 'GET') {
-    return sendJSON(res, db.prepare('SELECT * FROM fixkosten ORDER BY day ASC').all());
+    return sendJSON(res, [...db.fixkosten].sort((a,b) => a.day - b.day));
   }
-
   if (url === '/api/fixkosten' && method === 'POST') {
     const b = await getBody(req);
     if (!b.name || !b.amount) return sendJSON(res, { error: 'Fehlende Felder' }, 400);
-    const id = Date.now().toString() + Math.random().toString(36).slice(2,6);
-    db.prepare('INSERT INTO fixkosten (id,name,amount,cat,day) VALUES (?,?,?,?,?)')
-      .run(id, b.name, b.amount, b.cat||'Sonstiges', b.day||1);
-    return sendJSON(res, { id, ...b }, 201);
+    const entry = { id: newId(), name: b.name, amount: b.amount, cat: b.cat||'Sonstiges', day: b.day||1 };
+    db.fixkosten.push(entry);
+    saveDB(db); return sendJSON(res, entry, 201);
   }
-
   const delFix = url.match(/^\/api\/fixkosten\/(.+)$/);
   if (delFix && method === 'DELETE') {
-    db.prepare('DELETE FROM fixkosten WHERE id=?').run(delFix[1]);
-    return sendJSON(res, { success: true });
+    db.fixkosten = db.fixkosten.filter(f => f.id !== delFix[1]);
+    saveDB(db); return sendJSON(res, { success: true });
   }
 
-  // ── Settings ──
-  if (url === '/api/settings' && method === 'GET') {
-    const rows = db.prepare('SELECT key, value FROM settings').all();
-    const obj = {};
-    rows.forEach(r => obj[r.key] = r.value);
-    return sendJSON(res, obj);
-  }
-
+  // Settings
+  if (url === '/api/settings' && method === 'GET') return sendJSON(res, db.settings);
   if (url === '/api/settings' && method === 'POST') {
     const b = await getBody(req);
-    const stmt = db.prepare('INSERT OR REPLACE INTO settings (key,value) VALUES (?,?)');
-    Object.entries(b).forEach(([k,v]) => stmt.run(k, String(v)));
-    return sendJSON(res, { success: true });
+    Object.assign(db.settings, b);
+    saveDB(db); return sendJSON(res, { success: true });
   }
 
-  // ── Static files ──
+  // Statische Dateien
   serveFile(res, path.join(__dirname, url === '/' ? 'index.html' : url));
 });
 
-server.listen(PORT, () => {
-  console.log(`\n✅ Finanz-Server läuft auf http://localhost:${PORT}`);
-  console.log(`📱 iPhone: http://DEINE-IP:${PORT} in Safari öffnen`);
-  console.log(`   IP findest du unter: Einstellungen → WLAN → dein Netz\n`);
-});
+server.listen(PORT, () => console.log(`✅ Finanz-Server läuft auf Port ${PORT}`));

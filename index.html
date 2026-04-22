@@ -20,6 +20,7 @@
       --blue:     #60a5fa;
       --yellow:   #fbbf24;
       --purple:   #a78bfa;
+      --orange:   #fb923c;
       --radius:   16px;
     }
 
@@ -33,7 +34,6 @@
       padding-bottom: 80px;
     }
 
-    /* Background glow */
     body::before {
       content: '';
       position: fixed;
@@ -46,45 +46,28 @@
 
     /* ── Nav ── */
     nav {
-      position: sticky;
-      top: 0; z-index: 100;
+      position: sticky; top: 0; z-index: 100;
       background: rgba(11,15,26,0.85);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
       border-bottom: 1px solid var(--border);
       padding: 0 28px;
-      display: flex;
-      align-items: center;
-      gap: 0;
-      height: 60px;
+      display: flex; align-items: center; height: 60px;
     }
-
     .nav-logo {
       font-family: 'Syne', sans-serif;
-      font-size: 18px;
-      font-weight: 800;
-      color: var(--text);
-      margin-right: auto;
-      letter-spacing: -0.5px;
+      font-size: 18px; font-weight: 800;
+      color: var(--text); margin-right: auto;
     }
     .nav-logo span { color: var(--green); }
-
-    .nav-tabs {
-      display: flex;
-      gap: 4px;
-    }
-
+    .nav-tabs { display: flex; gap: 4px; }
     .nav-tab {
-      background: none;
-      border: none;
+      background: none; border: none;
       padding: 8px 16px;
       font-family: 'DM Sans', sans-serif;
-      font-size: 13px;
-      font-weight: 500;
-      color: var(--muted);
-      cursor: pointer;
-      border-radius: 8px;
-      transition: all 0.2s;
+      font-size: 13px; font-weight: 500;
+      color: var(--muted); cursor: pointer;
+      border-radius: 8px; transition: all 0.2s;
     }
     .nav-tab:hover { color: var(--text); background: var(--card2); }
     .nav-tab.active { color: var(--green); background: rgba(34,211,165,0.1); }
@@ -94,204 +77,156 @@
     .page.active { display: block; }
 
     .container {
-      max-width: 1000px;
-      margin: 0 auto;
-      padding: 32px 20px;
-      position: relative;
-      z-index: 1;
+      max-width: 1000px; margin: 0 auto;
+      padding: 32px 20px; position: relative; z-index: 1;
     }
 
-    /* ── Page Header ── */
-    .page-header {
-      margin-bottom: 28px;
-    }
+    .page-header { margin-bottom: 28px; }
     .page-header h1 {
       font-family: 'Syne', sans-serif;
-      font-size: 32px;
-      font-weight: 800;
-      letter-spacing: -1px;
+      font-size: 32px; font-weight: 800; letter-spacing: -1px;
     }
-    .page-header p {
-      color: var(--muted);
-      font-size: 14px;
-      margin-top: 4px;
-    }
+    .page-header p { color: var(--muted); font-size: 14px; margin-top: 4px; }
 
-    /* ── Month Selector ── */
+    /* ── Month bar ── */
     .month-bar {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 28px;
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 12px 18px;
+      display: flex; align-items: center; gap: 12px;
+      margin-bottom: 24px;
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 12px 18px;
     }
     .month-btn {
-      background: var(--card2);
-      border: none;
-      color: var(--text);
-      border-radius: 8px;
-      width: 32px; height: 32px;
-      cursor: pointer;
-      font-size: 16px;
-      display: flex; align-items: center; justify-content: center;
+      background: var(--card2); border: none; color: var(--text);
+      border-radius: 8px; width: 32px; height: 32px; cursor: pointer;
+      font-size: 16px; display: flex; align-items: center; justify-content: center;
       transition: background 0.15s;
     }
-    .month-btn:hover { background: var(--border); }
     .month-label {
-      font-family: 'Syne', sans-serif;
-      font-size: 18px;
-      font-weight: 700;
-      flex: 1;
+      font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 700; flex: 1;
     }
-    .month-budget-info {
-      font-size: 13px;
-      color: var(--muted);
-      text-align: right;
-    }
-    .month-budget-info strong { color: var(--text); }
+    .month-info { font-size: 12px; color: var(--muted); text-align: right; }
+    .month-info strong { color: var(--text); }
 
-    /* ── Summary Cards ── */
+    /* ── Summary grid (5 cards) ── */
     .summary-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 14px;
-      margin-bottom: 28px;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 12px; margin-bottom: 20px;
     }
+    @media (max-width: 800px) { .summary-grid { grid-template-columns: repeat(3, 1fr); } }
+    @media (max-width: 500px) { .summary-grid { grid-template-columns: repeat(2, 1fr); } }
 
     .sum-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 20px;
-      position: relative;
-      overflow: hidden;
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 18px 16px;
+      position: relative; overflow: hidden;
       animation: fadeUp 0.4s ease both;
     }
     .sum-card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 3px;
+      content: ''; position: absolute;
+      top: 0; left: 0; right: 0; height: 3px;
     }
-    .sum-card.green::before { background: var(--green); }
-    .sum-card.red::before   { background: var(--red); }
-    .sum-card.blue::before  { background: var(--blue); }
+    .sum-card.green::before  { background: var(--green); }
+    .sum-card.red::before    { background: var(--red); }
+    .sum-card.blue::before   { background: var(--blue); }
     .sum-card.yellow::before { background: var(--yellow); }
+    .sum-card.orange::before { background: var(--orange); }
 
     .sum-label {
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 10px;
+      font-size: 10px; font-weight: 600; letter-spacing: 1.2px;
+      text-transform: uppercase; color: var(--muted); margin-bottom: 8px;
     }
     .sum-value {
       font-family: 'Syne', sans-serif;
-      font-size: 26px;
-      font-weight: 800;
-      letter-spacing: -1px;
+      font-size: 20px; font-weight: 800; letter-spacing: -0.5px;
     }
-    .sum-card.green .sum-value { color: var(--green); }
-    .sum-card.red   .sum-value { color: var(--red); }
-    .sum-card.blue  .sum-value { color: var(--blue); }
+    .sum-card.green  .sum-value { color: var(--green); }
+    .sum-card.red    .sum-value { color: var(--red); }
+    .sum-card.blue   .sum-value { color: var(--blue); }
     .sum-card.yellow .sum-value { color: var(--yellow); }
+    .sum-card.orange .sum-value { color: var(--orange); }
+    .sum-sub { font-size: 11px; color: var(--muted); margin-top: 3px; }
 
-    .sum-sub {
-      font-size: 12px;
-      color: var(--muted);
-      margin-top: 4px;
-    }
-
-    /* Progress bar */
-    .budget-bar-wrap {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 18px 20px;
-      margin-bottom: 28px;
-    }
-    .budget-bar-label {
-      display: flex;
-      justify-content: space-between;
-      font-size: 13px;
-      color: var(--muted);
-      margin-bottom: 10px;
-    }
-    .budget-bar-label strong { color: var(--text); }
-    .budget-bar-track {
-      height: 8px;
-      background: var(--card2);
-      border-radius: 99px;
-      overflow: hidden;
-    }
-    .budget-bar-fill {
-      height: 100%;
-      border-radius: 99px;
-      transition: width 0.5s ease, background 0.3s;
-    }
-
-    /* ── Two columns ── */
-    .two-col {
+    /* ── Divider ── */
+    .budget-section {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 20px;
+      gap: 16px; margin-bottom: 20px;
+    }
+    @media (max-width: 640px) { .budget-section { grid-template-columns: 1fr; } }
+
+    .budget-box {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 18px 20px;
+    }
+    .budget-box-title {
+      font-size: 12px; font-weight: 600; letter-spacing: 0.5px;
+      text-transform: uppercase; color: var(--muted); margin-bottom: 14px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .budget-box-title .dot {
+      width: 8px; height: 8px; border-radius: 50%;
+    }
+    .bar-labels {
+      display: flex; justify-content: space-between;
+      font-size: 12px; color: var(--muted); margin-bottom: 8px;
+    }
+    .bar-labels strong { color: var(--text); }
+    .bar-track {
+      height: 8px; background: var(--card2);
+      border-radius: 99px; overflow: hidden; margin-bottom: 8px;
+    }
+    .bar-fill {
+      height: 100%; border-radius: 99px;
+      transition: width 0.5s ease, background 0.3s;
+    }
+    .bar-remaining {
+      font-size: 12px; color: var(--muted); text-align: right;
+    }
+    .bar-remaining strong { color: var(--text); }
+
+    /* ── Two col ── */
+    .two-col {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
     }
     @media (max-width: 640px) { .two-col { grid-template-columns: 1fr; } }
 
     /* ── Card ── */
     .card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      overflow: hidden;
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); overflow: hidden;
       animation: fadeUp 0.4s ease both;
     }
-
     .card-header {
-      padding: 18px 20px 14px;
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+      padding: 18px 20px 14px; border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
     }
-    .card-title {
-      font-family: 'Syne', sans-serif;
-      font-size: 16px;
-      font-weight: 700;
-    }
-
+    .card-title { font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 700; }
     .card-body { padding: 16px 20px 20px; }
 
-    /* ── Form ── */
-    .form-group {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      margin-bottom: 12px;
+    /* ── Info box ── */
+    .info-box {
+      background: rgba(34,211,165,0.06);
+      border: 1px solid rgba(34,211,165,0.2);
+      border-radius: 10px; padding: 12px 16px;
+      font-size: 13px; color: var(--muted);
+      margin-bottom: 16px; line-height: 1.5;
     }
+    .info-box strong { color: var(--green); }
+
+    /* ── Form ── */
+    .form-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px; }
     .form-group label {
-      font-size: 12px;
-      font-weight: 600;
-      color: var(--muted);
-      letter-spacing: 0.5px;
-      text-transform: uppercase;
+      font-size: 12px; font-weight: 600; color: var(--muted);
+      letter-spacing: 0.5px; text-transform: uppercase;
     }
     .form-group input,
     .form-group select {
-      background: var(--card2);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 11px 14px;
-      font-family: 'DM Sans', sans-serif;
-      font-size: 14px;
-      color: var(--text);
-      outline: none;
-      transition: border-color 0.2s;
-      -webkit-appearance: none;
+      background: var(--card2); border: 1px solid var(--border);
+      border-radius: 10px; padding: 11px 14px;
+      font-family: 'DM Sans', sans-serif; font-size: 14px;
+      color: var(--text); outline: none; transition: border-color 0.2s;
+      -webkit-appearance: none; width: 100%;
     }
     .form-group input:focus,
     .form-group select:focus { border-color: var(--green); }
@@ -299,156 +234,60 @@
     .form-group select option { background: #1a2234; }
 
     .btn {
-      width: 100%;
-      padding: 12px;
-      border: none;
-      border-radius: 10px;
-      font-family: 'DM Sans', sans-serif;
-      font-size: 14px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: opacity 0.15s, transform 0.1s;
-      margin-top: 4px;
+      width: 100%; padding: 12px; border: none; border-radius: 10px;
+      font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 600;
+      cursor: pointer; transition: opacity 0.15s, transform 0.1s; margin-top: 4px;
     }
     .btn:hover { opacity: 0.88; }
     .btn:active { transform: scale(0.98); }
-    .btn-green { background: var(--green); color: #0b0f1a; }
-    .btn-red   { background: var(--red);   color: #0b0f1a; }
-    .btn-blue  { background: var(--blue);  color: #0b0f1a; }
+    .btn-green  { background: var(--green);  color: #0b0f1a; }
+    .btn-red    { background: var(--red);    color: #0b0f1a; }
+    .btn-blue   { background: var(--blue);   color: #0b0f1a; }
 
-    /* ── List items ── */
-    .item-list {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-
+    /* ── Items ── */
+    .item-list { display: flex; flex-direction: column; gap: 8px; }
     .item {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 12px 14px;
-      background: var(--card2);
-      border-radius: 10px;
-      border: 1px solid transparent;
-      animation: slideIn 0.2s ease;
-      transition: border-color 0.2s;
+      display: flex; align-items: center; gap: 12px;
+      padding: 12px 14px; background: var(--card2);
+      border-radius: 10px; border: 1px solid transparent;
+      animation: slideIn 0.2s ease; transition: border-color 0.2s;
     }
     .item:hover { border-color: var(--border); }
-
-    .item-dot {
-      width: 10px; height: 10px;
-      border-radius: 50%;
-      flex-shrink: 0;
-    }
-
+    .item-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
     .item-info { flex: 1; min-width: 0; }
     .item-name {
-      font-size: 14px;
-      font-weight: 500;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      font-size: 14px; font-weight: 500;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
     }
-    .item-meta {
-      font-size: 11px;
-      color: var(--muted);
-      margin-top: 2px;
-    }
-
-    .item-amount {
-      font-family: 'Syne', sans-serif;
-      font-size: 15px;
-      font-weight: 700;
-      flex-shrink: 0;
-    }
-
+    .item-meta { font-size: 11px; color: var(--muted); margin-top: 2px; }
+    .item-amount { font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 700; flex-shrink: 0; }
     .item-del {
-      background: none;
-      border: none;
-      color: var(--muted);
-      cursor: pointer;
-      font-size: 18px;
-      padding: 2px 6px;
-      border-radius: 6px;
-      transition: color 0.15s, background 0.15s;
-      flex-shrink: 0;
+      background: none; border: none; color: var(--muted);
+      cursor: pointer; font-size: 18px; padding: 2px 6px;
+      border-radius: 6px; transition: color 0.15s, background 0.15s; flex-shrink: 0;
     }
     .item-del:hover { color: var(--red); background: rgba(248,113,113,0.1); }
 
-    .empty-state {
-      text-align: center;
-      padding: 28px 16px;
-      color: var(--muted);
-      font-size: 13px;
-    }
+    .empty-state { text-align: center; padding: 28px 16px; color: var(--muted); font-size: 13px; }
 
-    /* ── Category dots ── */
-    .cat-wohnen   { background: var(--blue); }
-    .cat-essen    { background: var(--green); }
-    .cat-transport { background: var(--yellow); }
-    .cat-freizeit { background: var(--purple); }
-    .cat-gesundheit { background: #f472b6; }
-    .cat-sonstiges { background: var(--muted); }
+    /* Category bars */
+    .cat-breakdown { display: flex; flex-direction: column; gap: 10px; }
+    .cat-row { display: flex; align-items: center; gap: 10px; }
+    .cat-row-label { width: 90px; font-size: 12px; color: var(--muted); flex-shrink: 0; }
+    .cat-row-bar-wrap { flex: 1; height: 7px; background: var(--card2); border-radius: 99px; overflow: hidden; }
+    .cat-row-bar { height: 100%; border-radius: 99px; transition: width 0.5s ease; }
+    .cat-row-amount { width: 70px; text-align: right; font-size: 12px; font-weight: 600; flex-shrink: 0; }
 
-    /* ── Übersicht / Chart area ── */
-    .cat-breakdown {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
+    .tag {
+      display: inline-block; font-size: 10px; font-weight: 600;
+      letter-spacing: 0.5px; padding: 3px 8px; border-radius: 99px; text-transform: uppercase;
     }
-    .cat-row {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .cat-row-label {
-      width: 90px;
-      font-size: 12px;
-      color: var(--muted);
-      flex-shrink: 0;
-    }
-    .cat-row-bar-wrap {
-      flex: 1;
-      height: 8px;
-      background: var(--card2);
-      border-radius: 99px;
-      overflow: hidden;
-    }
-    .cat-row-bar {
-      height: 100%;
-      border-radius: 99px;
-      transition: width 0.5s ease;
-    }
-    .cat-row-amount {
-      width: 70px;
-      text-align: right;
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--text);
-      flex-shrink: 0;
-    }
+    .tag-green { background: rgba(34,211,165,0.15); color: var(--green); }
+    .tag-red   { background: rgba(248,113,113,0.15); color: var(--red); }
 
-    /* ── Fixkosten page ── */
-    .fixkosten-total {
-      font-family: 'Syne', sans-serif;
-      font-size: 13px;
-      color: var(--muted);
-    }
-    .fixkosten-total strong {
-      color: var(--red);
-      font-size: 16px;
-    }
+    .fixkosten-total { font-size: 13px; color: var(--muted); }
+    .fixkosten-total strong { color: var(--red); font-size: 16px; font-family: 'Syne', sans-serif; }
 
-    /* ── Settings / Budget ── */
-    .settings-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-    }
-    @media (max-width: 500px) { .settings-grid { grid-template-columns: 1fr; } }
-
-    /* ── Animations ── */
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(12px); }
       to   { opacity: 1; transform: translateY(0); }
@@ -458,7 +297,6 @@
       to   { opacity: 1; transform: translateX(0); }
     }
 
-    /* ── Mobile nav ── */
     @media (max-width: 500px) {
       nav { padding: 0 10px; height: auto; flex-wrap: wrap; gap: 6px; padding: 10px; }
       .nav-logo { width: 100%; font-size: 16px; }
@@ -467,22 +305,23 @@
       .container { padding: 20px 12px; }
     }
 
-    .tag {
-      display: inline-block;
-      font-size: 10px;
-      font-weight: 600;
-      letter-spacing: 0.5px;
-      padding: 3px 8px;
-      border-radius: 99px;
-      text-transform: uppercase;
+    /* Gesamtübersicht separator */
+    .section-divider {
+      display: flex; align-items: center; gap: 12px;
+      margin: 20px 0 16px;
     }
-    .tag-green { background: rgba(34,211,165,0.15); color: var(--green); }
-    .tag-red   { background: rgba(248,113,113,0.15); color: var(--red); }
+    .section-divider span {
+      font-size: 11px; font-weight: 600; letter-spacing: 1px;
+      text-transform: uppercase; color: var(--muted); white-space: nowrap;
+    }
+    .section-divider::before, .section-divider::after {
+      content: ''; flex: 1; height: 1px; background: var(--border);
+    }
   </style>
 </head>
 <body>
 
-<!-- ── Navigation ── -->
+<!-- ── Nav ── -->
 <nav>
   <div class="nav-logo">Meine <span>Finanzen</span></div>
   <div class="nav-tabs">
@@ -493,27 +332,22 @@
   </div>
 </nav>
 
-<!-- ══════════════════════════════════════════
-     PAGE: ÜBERSICHT
-══════════════════════════════════════════ -->
+<!-- ══ ÜBERSICHT ══ -->
 <div id="page-uebersicht" class="page active">
   <div class="container">
     <div class="page-header">
       <h1>Übersicht</h1>
-      <p>Deine Finanzen auf einen Blick</p>
+      <p id="greet-sub">Deine Finanzen auf einen Blick</p>
     </div>
 
-    <!-- Month Selector -->
     <div class="month-bar">
       <button class="month-btn" onclick="changeMonth(-1)">‹</button>
-      <div class="month-label" id="ov-month-label">–</div>
-      <div class="month-budget-info">
-        Budget: <strong id="ov-budget">–</strong>
-      </div>
+      <div class="month-label" id="ov-month">–</div>
+      <div class="month-info">Einnahmen: <strong id="ov-income-mini">€ 0</strong></div>
       <button class="month-btn" onclick="changeMonth(1)">›</button>
     </div>
 
-    <!-- Summary -->
+    <!-- 5 Karten: Einnahmen / Var. Ausgaben / Fixkosten / Gesamt / Verfügbar -->
     <div class="summary-grid">
       <div class="sum-card green">
         <div class="sum-label">Einnahmen</div>
@@ -521,219 +355,238 @@
         <div class="sum-sub">Diesen Monat</div>
       </div>
       <div class="sum-card red">
-        <div class="sum-label">Ausgaben</div>
-        <div class="sum-value" id="ov-expenses">€ 0</div>
-        <div class="sum-sub" id="ov-exp-sub">inkl. Fixkosten</div>
+        <div class="sum-label">Variable Ausgaben</div>
+        <div class="sum-value" id="ov-var-exp">€ 0</div>
+        <div class="sum-sub">Ohne Fixkosten</div>
       </div>
       <div class="sum-card blue">
         <div class="sum-label">Fixkosten</div>
         <div class="sum-value" id="ov-fixed">€ 0</div>
         <div class="sum-sub">Monatlich fix</div>
       </div>
+      <div class="sum-card orange">
+        <div class="sum-label">Gesamt Ausgaben</div>
+        <div class="sum-value" id="ov-total-exp">€ 0</div>
+        <div class="sum-sub">Var. + Fixkosten</div>
+      </div>
       <div class="sum-card yellow">
         <div class="sum-label">Verfügbar</div>
         <div class="sum-value" id="ov-available">€ 0</div>
-        <div class="sum-sub">Nach allen Kosten</div>
+        <div class="sum-sub">Nach allem</div>
       </div>
     </div>
 
-    <!-- Budget Bar -->
-    <div class="budget-bar-wrap">
-      <div class="budget-bar-label">
-        <span>Budget verbraucht</span>
-        <strong id="ov-bar-label">0% von € 0</strong>
+    <!-- Zwei Budget-Balken getrennt -->
+    <div class="budget-section">
+      <!-- Variablen Budget -->
+      <div class="budget-box">
+        <div class="budget-box-title">
+          <div class="dot" style="background:var(--red)"></div>
+          Variables Budget
+        </div>
+        <div class="bar-labels">
+          <span>Verbraucht</span>
+          <strong id="var-bar-pct">0%</strong>
+        </div>
+        <div class="bar-track">
+          <div class="bar-fill" id="var-bar" style="width:0%"></div>
+        </div>
+        <div class="bar-remaining">
+          <span id="var-bar-detail">€ 0 von € 0</span>
+        </div>
       </div>
-      <div class="budget-bar-track">
-        <div class="budget-bar-fill" id="ov-bar" style="width:0%"></div>
+
+      <!-- Fixkosten Budget -->
+      <div class="budget-box">
+        <div class="budget-box-title">
+          <div class="dot" style="background:var(--blue)"></div>
+          Fixkosten Budget
+        </div>
+        <div class="bar-labels">
+          <span>Verbraucht</span>
+          <strong id="fix-bar-pct">0%</strong>
+        </div>
+        <div class="bar-track">
+          <div class="bar-fill" id="fix-bar" style="width:0%; background: var(--blue)"></div>
+        </div>
+        <div class="bar-remaining">
+          <span id="fix-bar-detail">€ 0 von € 0</span>
+        </div>
       </div>
     </div>
 
-    <!-- Two col: Category breakdown + Recent -->
     <div class="two-col">
       <div class="card">
-        <div class="card-header">
-          <div class="card-title">Nach Kategorie</div>
-        </div>
-        <div class="card-body">
-          <div class="cat-breakdown" id="ov-categories"></div>
-        </div>
+        <div class="card-header"><div class="card-title">Nach Kategorie</div></div>
+        <div class="card-body"><div class="cat-breakdown" id="ov-categories"></div></div>
       </div>
-
       <div class="card">
-        <div class="card-header">
-          <div class="card-title">Letzte Ausgaben</div>
-        </div>
-        <div class="card-body">
-          <div class="item-list" id="ov-recent"></div>
-        </div>
+        <div class="card-header"><div class="card-title">Letzte Transaktionen</div></div>
+        <div class="card-body"><div class="item-list" id="ov-recent"></div></div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════
-     PAGE: AUSGABEN
-══════════════════════════════════════════ -->
+<!-- ══ AUSGABEN ══ -->
 <div id="page-ausgaben" class="page">
   <div class="container">
     <div class="page-header">
       <h1>Ausgaben</h1>
-      <p>Trage deine Ausgaben und Einnahmen ein</p>
+      <p>Variable Ausgaben & Einnahmen eintragen</p>
     </div>
 
     <div class="month-bar">
       <button class="month-btn" onclick="changeMonth(-1)">‹</button>
-      <div class="month-label" id="aus-month-label">–</div>
+      <div class="month-label" id="aus-month">–</div>
       <button class="month-btn" onclick="changeMonth(1)">›</button>
     </div>
 
+    <div class="info-box">
+      💡 Hier trägst du deine <strong>variablen Ausgaben</strong> ein – also alles was nicht monatlich fix ist (z.B. Einkaufen, Restaurant, Kleidung). Fixkosten wie Miete oder Netflix trägst du unter <strong>📌 Fixkosten</strong> ein.
+    </div>
+
     <div class="two-col">
-      <!-- Ausgabe hinzufügen -->
       <div class="card">
-        <div class="card-header">
-          <div class="card-title">➕ Neue Ausgabe</div>
-        </div>
+        <div class="card-header"><div class="card-title">➕ Neue Ausgabe</div></div>
         <div class="card-body">
-          <div class="form-group">
-            <label>Bezeichnung</label>
-            <input type="text" id="exp-name" placeholder="z.B. Supermarkt" maxlength="60"/>
-          </div>
-          <div class="form-group">
-            <label>Betrag (€)</label>
-            <input type="number" id="exp-amount" placeholder="0.00" min="0" step="0.01"/>
-          </div>
-          <div class="form-group">
-            <label>Kategorie</label>
+          <div class="form-group"><label>Bezeichnung</label>
+            <input type="text" id="exp-name" placeholder="z.B. Supermarkt" maxlength="60"/></div>
+          <div class="form-group"><label>Betrag (€)</label>
+            <input type="number" id="exp-amount" placeholder="0.00" min="0" step="0.01"/></div>
+          <div class="form-group"><label>Kategorie</label>
             <select id="exp-cat">
-              <option value="Wohnen">🏠 Wohnen</option>
               <option value="Essen">🍔 Essen & Trinken</option>
               <option value="Transport">🚗 Transport</option>
               <option value="Freizeit">🎮 Freizeit</option>
               <option value="Gesundheit">💊 Gesundheit</option>
+              <option value="Kleidung">👕 Kleidung</option>
               <option value="Sonstiges">📦 Sonstiges</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label>Datum</label>
-            <input type="date" id="exp-date"/>
-          </div>
+            </select></div>
+          <div class="form-group"><label>Datum</label>
+            <input type="date" id="exp-date"/></div>
           <button class="btn btn-red" onclick="addExpense()">Ausgabe hinzufügen</button>
         </div>
       </div>
 
-      <!-- Einnahme hinzufügen -->
       <div class="card">
-        <div class="card-header">
-          <div class="card-title">💰 Neue Einnahme</div>
-        </div>
+        <div class="card-header"><div class="card-title">💰 Neue Einnahme</div></div>
         <div class="card-body">
-          <div class="form-group">
-            <label>Bezeichnung</label>
-            <input type="text" id="inc-name" placeholder="z.B. Gehalt" maxlength="60"/>
-          </div>
-          <div class="form-group">
-            <label>Betrag (€)</label>
-            <input type="number" id="inc-amount" placeholder="0.00" min="0" step="0.01"/>
-          </div>
-          <div class="form-group">
-            <label>Datum</label>
-            <input type="date" id="inc-date"/>
-          </div>
+          <div class="form-group"><label>Bezeichnung</label>
+            <input type="text" id="inc-name" placeholder="z.B. Gehalt" maxlength="60"/></div>
+          <div class="form-group"><label>Betrag (€)</label>
+            <input type="number" id="inc-amount" placeholder="0.00" min="0" step="0.01"/></div>
+          <div class="form-group"><label>Datum</label>
+            <input type="date" id="inc-date"/></div>
           <button class="btn btn-green" onclick="addIncome()">Einnahme hinzufügen</button>
         </div>
       </div>
     </div>
 
-    <!-- Transaktionsliste -->
     <div class="card" style="margin-top:20px">
       <div class="card-header">
         <div class="card-title">Alle Transaktionen</div>
         <div style="font-size:13px;color:var(--muted)" id="aus-count">0 Einträge</div>
       </div>
-      <div class="card-body">
-        <div class="item-list" id="aus-list"></div>
-      </div>
+      <div class="card-body"><div class="item-list" id="aus-list"></div></div>
     </div>
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════
-     PAGE: FIXKOSTEN
-══════════════════════════════════════════ -->
+<!-- ══ FIXKOSTEN ══ -->
 <div id="page-fixkosten" class="page">
   <div class="container">
     <div class="page-header">
       <h1>Fixkosten</h1>
-      <p>Monatlich wiederkehrende Kosten</p>
+      <p>Monatlich wiederkehrende Kosten – getrennt vom variablen Budget</p>
+    </div>
+
+    <div class="info-box">
+      💡 Fixkosten (Miete, Netflix, Versicherungen...) sind <strong>getrennt vom variablen Budget</strong>. Du kannst im Einstellungen ein eigenes <strong>Fixkosten-Budget</strong> festlegen.
     </div>
 
     <div class="two-col">
       <div class="card">
-        <div class="card-header">
-          <div class="card-title">➕ Fixkosten hinzufügen</div>
-        </div>
+        <div class="card-header"><div class="card-title">➕ Fixkosten hinzufügen</div></div>
         <div class="card-body">
-          <div class="form-group">
-            <label>Bezeichnung</label>
-            <input type="text" id="fix-name" placeholder="z.B. Miete, Netflix..." maxlength="60"/>
-          </div>
-          <div class="form-group">
-            <label>Betrag (€ / Monat)</label>
-            <input type="number" id="fix-amount" placeholder="0.00" min="0" step="0.01"/>
-          </div>
-          <div class="form-group">
-            <label>Kategorie</label>
+          <div class="form-group"><label>Bezeichnung</label>
+            <input type="text" id="fix-name" placeholder="z.B. Miete, Netflix..." maxlength="60"/></div>
+          <div class="form-group"><label>Betrag (€ / Monat)</label>
+            <input type="number" id="fix-amount" placeholder="0.00" min="0" step="0.01"/></div>
+          <div class="form-group"><label>Kategorie</label>
             <select id="fix-cat">
               <option value="Wohnen">🏠 Wohnen</option>
-              <option value="Essen">🍔 Essen</option>
+              <option value="Streaming">📺 Streaming</option>
+              <option value="Versicherung">🛡️ Versicherung</option>
               <option value="Transport">🚗 Transport</option>
-              <option value="Freizeit">🎮 Freizeit</option>
               <option value="Gesundheit">💊 Gesundheit</option>
               <option value="Sonstiges">📦 Sonstiges</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label>Fällig am (Tag des Monats)</label>
-            <input type="number" id="fix-day" placeholder="z.B. 1" min="1" max="31"/>
-          </div>
-          <button class="btn btn-blue" onclick="addFixkosten()">Fixkosten hinzufügen</button>
+            </select></div>
+          <div class="form-group"><label>Fällig am (Tag des Monats)</label>
+            <input type="number" id="fix-day" placeholder="z.B. 1" min="1" max="31"/></div>
+          <button class="btn btn-blue" onclick="addFixkosten()">Hinzufügen</button>
         </div>
       </div>
 
       <div class="card">
         <div class="card-header">
           <div class="card-title">📌 Meine Fixkosten</div>
-          <div class="fixkosten-total">Gesamt: <strong id="fix-total">€ 0</strong> / Monat</div>
+          <div class="fixkosten-total">Gesamt: <strong id="fix-total">€ 0</strong> / Mo.</div>
         </div>
-        <div class="card-body">
-          <div class="item-list" id="fix-list"></div>
-        </div>
+        <div class="card-body"><div class="item-list" id="fix-list"></div></div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════
-     PAGE: EINSTELLUNGEN
-══════════════════════════════════════════ -->
+<!-- ══ EINSTELLUNGEN ══ -->
 <div id="page-einstellungen" class="page">
   <div class="container">
     <div class="page-header">
       <h1>Einstellungen</h1>
-      <p>Budget und persönliche Angaben</p>
+      <p>Budget getrennt für variable Ausgaben und Fixkosten</p>
     </div>
 
-    <div class="card" style="max-width:500px">
-      <div class="card-header">
-        <div class="card-title">💰 Monatsbudget</div>
+    <div class="info-box">
+      💡 Du hast <strong>zwei getrennte Budgets</strong>:<br/>
+      • <strong>Variables Budget</strong> = wie viel du für Essen, Freizeit etc. ausgeben darfst<br/>
+      • <strong>Fixkosten Budget</strong> = wie viel deine monatlichen Fixkosten sein dürfen<br/>
+      In der Übersicht werden beide separat und zusammen angezeigt.
+    </div>
+
+    <div class="two-col">
+      <div class="card">
+        <div class="card-header"><div class="card-title">💸 Variables Budget</div></div>
+        <div class="card-body">
+          <div class="form-group">
+            <label>Budget für variable Ausgaben (€/Monat)</label>
+            <input type="number" id="set-var-budget" placeholder="z.B. 800" min="0" step="10"/>
+          </div>
+          <p style="font-size:12px;color:var(--muted);margin-top:4px">
+            Gilt für: Essen, Freizeit, Transport, Kleidung etc.
+          </p>
+        </div>
       </div>
+
+      <div class="card">
+        <div class="card-header"><div class="card-title">📌 Fixkosten Budget</div></div>
+        <div class="card-body">
+          <div class="form-group">
+            <label>Budget für Fixkosten (€/Monat)</label>
+            <input type="number" id="set-fix-budget" placeholder="z.B. 1200" min="0" step="10"/>
+          </div>
+          <p style="font-size:12px;color:var(--muted);margin-top:4px">
+            Gilt für: Miete, Streaming, Versicherungen etc.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="max-width:500px; margin-top: 0">
+      <div class="card-header"><div class="card-title">👤 Persönliches</div></div>
       <div class="card-body">
         <div class="form-group">
-          <label>Mein monatliches Budget (€)</label>
-          <input type="number" id="set-budget" placeholder="z.B. 2000" min="0" step="10"/>
-        </div>
-        <div class="form-group">
-          <label>Mein Name</label>
+          <label>Dein Name</label>
           <input type="text" id="set-name" placeholder="z.B. Max" maxlength="30"/>
         </div>
         <button class="btn btn-green" onclick="saveSettings()">Einstellungen speichern</button>
@@ -748,30 +601,28 @@
 
 <script>
 // ── Data ──
-let data = JSON.parse(localStorage.getItem('finanzen_v2') || 'null') || {
-  expenses: [],   // { id, name, amount, cat, date, type:'expense'|'income' }
-  fixkosten: [],  // { id, name, amount, cat, day }
-  budget: 2000,
-  userName: ''
+let data = JSON.parse(localStorage.getItem('finanzen_v3') || 'null') || {
+  expenses:  [],
+  fixkosten: [],
+  varBudget: 800,
+  fixBudget: 1200,
+  userName:  ''
 };
 
 const MONTHS_DE = ['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'];
 const CAT_COLORS = {
-  Wohnen: '#60a5fa', Essen: '#22d3a5', Transport: '#fbbf24',
-  Freizeit: '#a78bfa', Gesundheit: '#f472b6', Sonstiges: '#64748b'
-};
-const CAT_CLASS = {
-  Wohnen:'cat-wohnen', Essen:'cat-essen', Transport:'cat-transport',
-  Freizeit:'cat-freizeit', Gesundheit:'cat-gesundheit', Sonstiges:'cat-sonstiges'
+  Wohnen:'#60a5fa', Essen:'#22d3a5', Transport:'#fbbf24',
+  Freizeit:'#a78bfa', Gesundheit:'#f472b6', Kleidung:'#fb923c',
+  Streaming:'#60a5fa', Versicherung:'#94a3b8', Sonstiges:'#64748b'
 };
 
 let viewYear, viewMonth;
 
-function save() { localStorage.setItem('finanzen_v2', JSON.stringify(data)); }
+function save() { localStorage.setItem('finanzen_v3', JSON.stringify(data)); }
 function fmt(n) { return '€ ' + Number(n).toFixed(2).replace('.',','); }
-function fmtShort(n) { return '€ ' + Math.round(n); }
+function escHtml(t) { return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
-// ── Navigation ──
+// ── Nav ──
 function showPage(name, btn) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.nav-tab').forEach(b => b.classList.remove('active'));
@@ -782,115 +633,101 @@ function showPage(name, btn) {
 
 // ── Month ──
 function initMonth() {
-  const now = new Date();
-  viewYear  = now.getFullYear();
-  viewMonth = now.getMonth();
+  const n = new Date();
+  viewYear = n.getFullYear(); viewMonth = n.getMonth();
 }
-
-function changeMonth(dir) {
-  viewMonth += dir;
+function changeMonth(d) {
+  viewMonth += d;
   if (viewMonth > 11) { viewMonth = 0; viewYear++; }
   if (viewMonth < 0)  { viewMonth = 11; viewYear--; }
   refreshAll();
 }
-
 function monthKey() { return `${viewYear}-${String(viewMonth+1).padStart(2,'0')}`; }
+function monthTx()  { return data.expenses.filter(e => e.date.startsWith(monthKey())); }
+function fixTotal() { return data.fixkosten.reduce((s,f) => s + f.amount, 0); }
 
-function getMonthExpenses() {
-  const mk = monthKey();
-  return data.expenses.filter(e => e.date.startsWith(mk));
-}
-
-function fixkostenTotal() {
-  return data.fixkosten.reduce((s,f) => s + f.amount, 0);
-}
-
-// ── Refresh All ──
 function refreshAll() {
   const label = `${MONTHS_DE[viewMonth]} ${viewYear}`;
-  setAll('.month-label', label);
-  document.getElementById('ov-month-label') && (document.getElementById('ov-month-label').textContent = label);
-  document.getElementById('aus-month-label') && (document.getElementById('aus-month-label').textContent = label);
-
+  ['ov-month','aus-month'].forEach(id => { const el=document.getElementById(id); if(el) el.textContent=label; });
   refreshOverview();
   refreshAusgaben();
   refreshFixkosten();
   refreshSettings();
-}
 
-function setAll(sel, val) {
-  document.querySelectorAll(sel).forEach(el => el.textContent = val);
+  const h = new Date().getHours();
+  const g = h < 12 ? 'Guten Morgen' : h < 18 ? 'Guten Tag' : 'Guten Abend';
+  const sub = document.getElementById('greet-sub');
+  if (sub) sub.textContent = `${g}${data.userName ? ', ' + data.userName : ''}! Hier sind deine Finanzen.`;
 }
 
 // ── Overview ──
 function refreshOverview() {
-  const entries = getMonthExpenses();
-  const income   = entries.filter(e => e.type === 'income').reduce((s,e) => s+e.amount, 0);
-  const expenses = entries.filter(e => e.type === 'expense').reduce((s,e) => s+e.amount, 0);
-  const fixed    = fixkostenTotal();
-  const totalOut = expenses + fixed;
+  const tx = monthTx();
+  const income  = tx.filter(t => t.type==='income').reduce((s,t) => s+t.amount, 0);
+  const varExp  = tx.filter(t => t.type==='expense').reduce((s,t) => s+t.amount, 0);
+  const fixed   = fixTotal();
+  const totalOut = varExp + fixed;
   const available = income - totalOut;
-  const budget = data.budget || 0;
 
   document.getElementById('ov-income').textContent    = fmt(income);
-  document.getElementById('ov-expenses').textContent  = fmt(totalOut);
+  document.getElementById('ov-income-mini').textContent = fmt(income);
+  document.getElementById('ov-var-exp').textContent   = fmt(varExp);
   document.getElementById('ov-fixed').textContent     = fmt(fixed);
+  document.getElementById('ov-total-exp').textContent = fmt(totalOut);
   document.getElementById('ov-available').textContent = fmt(available);
-  document.getElementById('ov-budget').textContent    = fmt(budget);
 
-  // Bar
-  const pct = budget > 0 ? Math.min((totalOut / budget) * 100, 100) : 0;
-  const bar = document.getElementById('ov-bar');
-  bar.style.width = pct + '%';
-  bar.style.background = pct > 90 ? '#f87171' : pct > 70 ? '#fbbf24' : '#22d3a5';
-  document.getElementById('ov-bar-label').textContent = `${Math.round(pct)}% von ${fmt(budget)}`;
+  // Variables Budget Balken
+  const vBudget = data.varBudget || 0;
+  const vPct = vBudget > 0 ? Math.min((varExp / vBudget) * 100, 100) : 0;
+  const vBar = document.getElementById('var-bar');
+  vBar.style.width = vPct + '%';
+  vBar.style.background = vPct > 90 ? '#f87171' : vPct > 70 ? '#fbbf24' : '#22d3a5';
+  document.getElementById('var-bar-pct').textContent    = Math.round(vPct) + '%';
+  document.getElementById('var-bar-detail').textContent = `${fmt(varExp)} von ${fmt(vBudget)} · noch ${fmt(Math.max(vBudget - varExp, 0))}`;
 
-  // Categories
-  const catTotals = {};
-  entries.filter(e => e.type === 'expense').forEach(e => {
-    catTotals[e.cat] = (catTotals[e.cat] || 0) + e.amount;
-  });
-  data.fixkosten.forEach(f => {
-    catTotals[f.cat] = (catTotals[f.cat] || 0) + f.amount;
-  });
+  // Fixkosten Budget Balken
+  const fBudget = data.fixBudget || 0;
+  const fPct = fBudget > 0 ? Math.min((fixed / fBudget) * 100, 100) : 0;
+  const fBar = document.getElementById('fix-bar');
+  fBar.style.width = fPct + '%';
+  fBar.style.background = fPct > 90 ? '#f87171' : fPct > 70 ? '#fbbf24' : '#60a5fa';
+  document.getElementById('fix-bar-pct').textContent    = Math.round(fPct) + '%';
+  document.getElementById('fix-bar-detail').textContent = `${fmt(fixed)} von ${fmt(fBudget)} · noch ${fmt(Math.max(fBudget - fixed, 0))}`;
 
-  const maxCat = Math.max(...Object.values(catTotals), 1);
+  // Kategorien
+  const cats = {};
+  tx.filter(t => t.type==='expense').forEach(t => cats[t.cat] = (cats[t.cat]||0) + t.amount);
+  data.fixkosten.forEach(f => cats[f.cat] = (cats[f.cat]||0) + f.amount);
+  const maxV = Math.max(...Object.values(cats), 1);
   const catEl = document.getElementById('ov-categories');
-  const cats = Object.entries(catTotals).sort((a,b) => b[1]-a[1]);
+  const sorted = Object.entries(cats).sort((a,b) => b[1]-a[1]);
+  catEl.innerHTML = sorted.length === 0
+    ? '<div class="empty-state">Noch keine Ausgaben</div>'
+    : sorted.map(([cat, amt]) => `
+        <div class="cat-row">
+          <div class="cat-row-label">${cat}</div>
+          <div class="cat-row-bar-wrap">
+            <div class="cat-row-bar" style="width:${(amt/maxV*100).toFixed(1)}%;background:${CAT_COLORS[cat]||'#64748b'}"></div>
+          </div>
+          <div class="cat-row-amount">${fmt(amt)}</div>
+        </div>`).join('');
 
-  if (cats.length === 0) {
-    catEl.innerHTML = '<div class="empty-state">Noch keine Ausgaben</div>';
-  } else {
-    catEl.innerHTML = cats.map(([cat, amount]) => `
-      <div class="cat-row">
-        <div class="cat-row-label" style="font-size:12px;color:var(--muted)">${cat}</div>
-        <div class="cat-row-bar-wrap">
-          <div class="cat-row-bar" style="width:${(amount/maxCat*100).toFixed(1)}%;background:${CAT_COLORS[cat]||'#64748b'}"></div>
-        </div>
-        <div class="cat-row-amount">${fmt(amount)}</div>
-      </div>
-    `).join('');
-  }
-
-  // Recent
-  const recent = [...entries].sort((a,b) => b.date.localeCompare(a.date)).slice(0,5);
+  // Letzte Transaktionen
+  const recent = [...tx].sort((a,b) => b.date.localeCompare(a.date)).slice(0,6);
   const recEl = document.getElementById('ov-recent');
-  if (recent.length === 0) {
-    recEl.innerHTML = '<div class="empty-state">Keine Einträge</div>';
-  } else {
-    recEl.innerHTML = recent.map(e => `
-      <div class="item">
-        <div class="item-dot" style="background:${e.type==='income'?'#22d3a5':'#f87171'}"></div>
-        <div class="item-info">
-          <div class="item-name">${escHtml(e.name)}</div>
-          <div class="item-meta">${e.date}</div>
-        </div>
-        <div class="item-amount" style="color:${e.type==='income'?'var(--green)':'var(--red)'}">
-          ${e.type==='income'?'+':'−'}${fmt(e.amount)}
-        </div>
-      </div>
-    `).join('');
-  }
+  recEl.innerHTML = recent.length === 0
+    ? '<div class="empty-state">Keine Einträge</div>'
+    : recent.map(t => `
+        <div class="item">
+          <div class="item-dot" style="background:${t.type==='income'?'#22d3a5':'#f87171'}"></div>
+          <div class="item-info">
+            <div class="item-name">${escHtml(t.name)}</div>
+            <div class="item-meta">${t.date}</div>
+          </div>
+          <div class="item-amount" style="color:${t.type==='income'?'var(--green)':'var(--red)'}">
+            ${t.type==='income'?'+':'−'}${fmt(t.amount)}
+          </div>
+        </div>`).join('');
 }
 
 // ── Ausgaben ──
@@ -899,8 +736,7 @@ function addExpense() {
   const amount = parseFloat(document.getElementById('exp-amount').value);
   const cat    = document.getElementById('exp-cat').value;
   const date   = document.getElementById('exp-date').value;
-  if (!name || !amount || amount <= 0 || !date) return alert('Bitte alle Felder ausfüllen!');
-
+  if (!name || !amount || amount <= 0 || !date) { alert('Bitte alle Felder ausfüllen!'); return; }
   data.expenses.push({ id: Date.now().toString(), name, amount, cat, date, type: 'expense' });
   save();
   document.getElementById('exp-name').value = '';
@@ -912,8 +748,7 @@ function addIncome() {
   const name   = document.getElementById('inc-name').value.trim();
   const amount = parseFloat(document.getElementById('inc-amount').value);
   const date   = document.getElementById('inc-date').value;
-  if (!name || !amount || amount <= 0 || !date) return alert('Bitte alle Felder ausfüllen!');
-
+  if (!name || !amount || amount <= 0 || !date) { alert('Bitte alle Felder ausfüllen!'); return; }
   data.expenses.push({ id: Date.now().toString(), name, amount, cat: 'Sonstiges', date, type: 'income' });
   save();
   document.getElementById('inc-name').value = '';
@@ -927,30 +762,26 @@ function deleteTransaction(id) {
 }
 
 function refreshAusgaben() {
-  const entries = getMonthExpenses().sort((a,b) => b.date.localeCompare(a.date));
-  const el = document.getElementById('aus-list');
+  const tx = monthTx().sort((a,b) => b.date.localeCompare(a.date));
   const countEl = document.getElementById('aus-count');
-  if (countEl) countEl.textContent = entries.length + ' Einträge';
-
-  if (entries.length === 0) {
-    el.innerHTML = '<div class="empty-state">Noch keine Einträge diesen Monat</div>';
-    return;
-  }
-
-  el.innerHTML = entries.map(e => `
-    <div class="item">
-      <div class="item-dot ${CAT_CLASS[e.cat]||'cat-sonstiges'}"></div>
-      <div class="item-info">
-        <div class="item-name">${escHtml(e.name)}</div>
-        <div class="item-meta">${e.cat} · ${e.date}</div>
-      </div>
-      <span class="tag ${e.type==='income'?'tag-green':'tag-red'}">${e.type==='income'?'Einnahme':'Ausgabe'}</span>
-      <div class="item-amount" style="color:${e.type==='income'?'var(--green)':'var(--red)'}">
-        ${e.type==='income'?'+':'−'}${fmt(e.amount)}
-      </div>
-      <button class="item-del" onclick="deleteTransaction('${e.id}')">×</button>
-    </div>
-  `).join('');
+  if (countEl) countEl.textContent = tx.length + ' Einträge';
+  const el = document.getElementById('aus-list');
+  if (!el) return;
+  el.innerHTML = tx.length === 0
+    ? '<div class="empty-state">Noch keine Einträge diesen Monat</div>'
+    : tx.map(t => `
+        <div class="item">
+          <div class="item-dot" style="background:${CAT_COLORS[t.cat]||'#64748b'}"></div>
+          <div class="item-info">
+            <div class="item-name">${escHtml(t.name)}</div>
+            <div class="item-meta">${t.cat} · ${t.date}</div>
+          </div>
+          <span class="tag ${t.type==='income'?'tag-green':'tag-red'}">${t.type==='income'?'Einnahme':'Ausgabe'}</span>
+          <div class="item-amount" style="color:${t.type==='income'?'var(--green)':'var(--red)'}">
+            ${t.type==='income'?'+':'−'}${fmt(t.amount)}
+          </div>
+          <button class="item-del" onclick="deleteTransaction('${t.id}')">×</button>
+        </div>`).join('');
 }
 
 // ── Fixkosten ──
@@ -959,8 +790,7 @@ function addFixkosten() {
   const amount = parseFloat(document.getElementById('fix-amount').value);
   const cat    = document.getElementById('fix-cat').value;
   const day    = parseInt(document.getElementById('fix-day').value) || 1;
-  if (!name || !amount || amount <= 0) return alert('Bitte Name und Betrag ausfüllen!');
-
+  if (!name || !amount || amount <= 0) { alert('Bitte Name und Betrag ausfüllen!'); return; }
   data.fixkosten.push({ id: Date.now().toString(), name, amount, cat, day });
   save();
   document.getElementById('fix-name').value = '';
@@ -975,36 +805,33 @@ function deleteFixkosten(id) {
 }
 
 function refreshFixkosten() {
-  const total = fixkostenTotal();
+  const total = fixTotal();
   const totalEl = document.getElementById('fix-total');
   if (totalEl) totalEl.textContent = fmt(total);
-
   const el = document.getElementById('fix-list');
   if (!el) return;
-
-  if (data.fixkosten.length === 0) {
-    el.innerHTML = '<div class="empty-state">Noch keine Fixkosten eingetragen</div>';
-    return;
-  }
-
-  el.innerHTML = [...data.fixkosten].sort((a,b) => a.day-b.day).map(f => `
-    <div class="item">
-      <div class="item-dot ${CAT_CLASS[f.cat]||'cat-sonstiges'}"></div>
-      <div class="item-info">
-        <div class="item-name">${escHtml(f.name)}</div>
-        <div class="item-meta">${f.cat} · fällig am ${f.day}.</div>
-      </div>
-      <div class="item-amount" style="color:var(--red)">${fmt(f.amount)}</div>
-      <button class="item-del" onclick="deleteFixkosten('${f.id}')">×</button>
-    </div>
-  `).join('');
+  const sorted = [...data.fixkosten].sort((a,b) => a.day - b.day);
+  el.innerHTML = sorted.length === 0
+    ? '<div class="empty-state">Noch keine Fixkosten eingetragen</div>'
+    : sorted.map(f => `
+        <div class="item">
+          <div class="item-dot" style="background:${CAT_COLORS[f.cat]||'#64748b'}"></div>
+          <div class="item-info">
+            <div class="item-name">${escHtml(f.name)}</div>
+            <div class="item-meta">${f.cat} · fällig am ${f.day}.</div>
+          </div>
+          <div class="item-amount" style="color:var(--red)">${fmt(f.amount)}</div>
+          <button class="item-del" onclick="deleteFixkosten('${f.id}')">×</button>
+        </div>`).join('');
 }
 
 // ── Settings ──
 function saveSettings() {
-  const budget = parseFloat(document.getElementById('set-budget').value);
-  const name   = document.getElementById('set-name').value.trim();
-  if (budget > 0) data.budget = budget;
+  const vb = parseFloat(document.getElementById('set-var-budget').value);
+  const fb = parseFloat(document.getElementById('set-fix-budget').value);
+  const name = document.getElementById('set-name').value.trim();
+  if (vb > 0) data.varBudget = vb;
+  if (fb > 0) data.fixBudget = fb;
   if (name) data.userName = name;
   save();
   alert('✅ Gespeichert!');
@@ -1012,29 +839,26 @@ function saveSettings() {
 }
 
 function refreshSettings() {
-  const b = document.getElementById('set-budget');
-  const n = document.getElementById('set-name');
-  if (b && !b.value) b.value = data.budget || '';
-  if (n && !n.value) n.value = data.userName || '';
+  const vb = document.getElementById('set-var-budget');
+  const fb = document.getElementById('set-fix-budget');
+  const n  = document.getElementById('set-name');
+  if (vb) vb.value = data.varBudget || '';
+  if (fb) fb.value = data.fixBudget || '';
+  if (n)  n.value  = data.userName  || '';
 }
 
 function resetAll() {
   if (confirm('Wirklich alle Daten löschen?')) {
-    localStorage.removeItem('finanzen_v2');
+    localStorage.removeItem('finanzen_v3');
     location.reload();
   }
-}
-
-function escHtml(t) {
-  return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 }
 
 // ── Init ──
 function setDefaultDates() {
   const today = new Date().toISOString().split('T')[0];
   ['exp-date','inc-date'].forEach(id => {
-    const el = document.getElementById(id);
-    if (el) el.value = today;
+    const el = document.getElementById(id); if (el) el.value = today;
   });
 }
 
